@@ -111,7 +111,7 @@ Bicycle GAN為監督式學習(supervised learning)，經過pair instances即可�
 |![](https://i.imgur.com/LB1UoYF.jpg)|![](https://i.imgur.com/08ecHL8.jpg)|![](https://i.imgur.com/ZhRmWZE.jpg)|![](https://i.imgur.com/zRuMIxI.jpg)|
 ### 2.Linearity produce style code
 ---
-自己產生style code 進行轉換我們使用了兩種技巧，一種是技巧A,隨機產生兩個style code並以兩者變化量除16做為單位向量，此向量有8個維度，因為儲存style_dim在訓練時設定為8，技巧B則是一次只動style code的其中一個維度，範圍從-7到0.5，遞增0.5，其他維度設為0。
+自己產生style code 進行轉換我們使用了兩種技巧，一種是技巧A,隨機產生兩個style code並以兩者變化量除16做為單位向量，此向量有8個維度，因為儲存style_dim在訓練時設定為8，技巧B則是一次只動style code的其中一個維度，範圍從-3.5到4，遞增0.5，其他維度設為0。
 #### 技巧A
 
 向量調整style code
@@ -123,7 +123,7 @@ Bicycle GAN為監督式學習(supervised learning)，經過pair instances即可�
 
 因為是用兩個隨機的style code產生單位向量，所以每個維度變化尺度不同，畫風線性變化上不一定很明顯，不過產生的圖片在風格上很接近畫作相較於直接抽取畫作的style code。
 #### 技巧Ｂ
-之所以維度調整範圍由-7到0.5是因為幾乎每個維度在這個範圍內都有明顯的線性變化。
+之所以維度調整範圍由-3.5到4是因為幾乎每個維度在這個範圍內都有明顯的線性變化。
 
 
 
@@ -180,13 +180,13 @@ Bicycle GAN為監督式學習(supervised learning)，經過pair instances即可�
 由於上一次[作業1](https://github.com/AllenChen0958/homework1-color-transfer/blob/master/result.md)已經對其中幾個方法做過介紹，這次僅就 A Neural Algorithm of Artistic Style 以及 Diverse image2image tranfer 做介紹，剩下以轉換完之結果圖片及表格進行比較。
 ### [A Neural Algorithm of Artistic Style](https://ithelp.ithome.com.tw/articles/10192738)
 ---
-採用的pre-trained的VGG的模型改版，如下圖:
+採用的pre-trained的VGG的模型改版，原版VGG模型如下圖:
 ![](https://i.imgur.com/PYusQK8.jpg)
 一般的VGG包含 convolution + pooling + FC(fully-connected layers)，但是此版本只使用16層convolutional layers 和 5層 pooling layers，用GAP(global average pooling)取代FC layers後，使其在預測上效果更好。
 此外，模型主要包含兩個部分，Content Reconstruction 以及 Style Reconstruction。透過保留 high-layer content 融合運用 multilayer feature correlations 重建的 style 得以產生真實照片轉換成畫作的視覺效果。
 
 #### Example
-為方便閱讀比較，該方法的測資上，選擇和上方MUNIT三張畫作作為style參考，並依照MUNIT的三張真實照片分別就不同style進行轉換，該方法會隨其pretrained vgg-model的好壞
+為方便閱讀比較，該方法的測資上，選擇和上方 MUNIT 三張畫作作為 style 參考，並依照 MUNIT 的三張真實照片分別就不同 style 進行轉換，該方法會隨其 pre-trained vgg-model 的好壞
 #### a.Photo2Monet
 |![](https://i.imgur.com/RuFjck5.png)|![](https://i.imgur.com/NuFTDkZ.jpg)|![](https://i.imgur.com/lVyF84M.jpg)|![](https://i.imgur.com/VqONRxd.jpg)|
 |:-----:|:----:|:----:|:----:|
@@ -210,7 +210,7 @@ Bicycle GAN為監督式學習(supervised learning)，經過pair instances即可�
 |![](https://i.imgur.com/LB1UoYF.jpg)|![](https://i.imgur.com/vc878Be.jpg)|![](https://i.imgur.com/voLlx5q.jpg)|![](https://i.imgur.com/tI9AMlh.jpg)|
 ###  [Diverse image2image tranfer](http://vllab.ucmerced.edu/hylee/publication/ECCV18_DRIT.pdf)
 ---
-其實DRIT跟MUNIT幾乎是相同的model，都是分出內容空間和屬性空間(或稱風格空間)，硬要區分不同大概只有在如何融合內容空間和屬性空間上，MUNIT使用[AdaIN](https://github.com/xunhuang1995/AdaIN-style)，DRIT則有兩種選擇:For color-variation translate 使用 simple concatenation ； For shape-variation 使用 element-wise feature transformation 。
+其實DRIT跟MUNIT幾乎是相同的model，都是分出內容空間和屬性空間(或稱風格空間)，硬要區分不同大概只有在如何融合內容空間和屬性空間上，MUNIT使用[AdaIN](https://github.com/xunhuang1995/AdaIN-style)，DRIT則有兩種選擇: For color-variation translate 使用 simple concatenation ； For shape-variation 使用 element-wise feature transformation 。
 
 #### Example
 
@@ -226,7 +226,7 @@ Bicycle GAN為監督式學習(supervised learning)，經過pair instances即可�
 #### 思路比較
 [![](https://i.imgur.com/JVUDIMH.png)](https://pythonawesome.com/simple-tensorflow-implementation-of-diverse-image-to-image-translation/)
 #### MUNIT vs DRIT
-除了部分連接方式以及content 和 style 結合方式的差異，其他部分十分相似。
+除了部分連接方式以及 content 和 style 結合方式的差異，其他部分十分相似。
 
 - MUNIT:
 ![](https://i.imgur.com/oIgzc06.png)
@@ -257,9 +257,9 @@ Bicycle GAN為監督式學習(supervised learning)，經過pair instances即可�
 
 ## Conclusion
 
-- MUNIT 跟 CNN 有類似的照片輸入模式，乍看之下似乎CNN效果比較好?事實上不盡然如此，如果看CNN的realphoto2cezan結果，我們會發現照片內的船幾乎消失不見，在細節保留上是比Munit差很多的，原因推測可能是因為munit在抽取content特徵時，使用了residual block，因此得以保留更多細節。相對而言，因為細節保留太多在很多style轉換後，仍然看起來不像畫作。
+- MUNIT 跟 CNN 有類似的照片輸入模式，乍看之下似乎 CNN 效果比較好，然而事實上不盡然如此，如果看 CNN 的 realphoto2cezan 結果，我們會發現照片內的船幾乎消失不見，在細節保留上是比 MUNIT 差很多的，原因推測可能是因為 MUNIT 在抽取 content 特徵時，使用了 residual block，因此得以保留更多細節。相對而言，因為細節保留太多常常在 style 轉換後，仍然看起來不像畫作。
 
-- Cycle GAN在細節保留上，似乎取得更好的平衡，因為對其a2b後，尚須進行b2a還原測試，大部分影像轉換後的結果，仍然可以看到大部分原始照片的細節，並且畫風中的筆觸跟色彩皆有融合於其中。
+- Cycle GAN 在細節保留上，似乎取得更好的平衡，因為對其 a2b 後，尚須進行 b2a 還原測試，大部分影像轉換後的結果，仍然可以看到大部分原始照片的細節，並且畫風中的筆觸跟色彩皆有融合於其中。
 - DRIT 的轉換結果在這次實驗中不是很好，原本預測應該會有與MUNIT接近的結果，但是不管是細節或是畫風轉換都沒有很出色，問題可能是出在訓練時間不夠長。
 
 
