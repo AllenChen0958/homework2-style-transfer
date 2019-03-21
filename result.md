@@ -54,10 +54,10 @@ Bicycle GAN為監督式學習(supervised learning)，經過pair instances即可�
 ### Loss Function
 ![](https://i.imgur.com/QPyuVNK.png)
 
-上述loss function 可拆成兩部份，GAN本身的![](https://i.imgur.com/0Uijq6h.gif)加上reconstruction loss。
+上述loss function 可拆成兩部份，GAN本身的 ![](https://i.imgur.com/0Uijq6h.gif) 加上reconstruction loss。
 
-- GAN ![](https://i.imgur.com/0Uijq6h.gif): 
-該部份的loss即是傳統GAN的loss，主要目地在於讓Discriminator能有分出Generator產生的圖片和真正的圖片![](https://i.imgur.com/50HytWx.gif)，同時讓Generator產生的圖片越來越逼真而能夠騙過Discriminator
+- GAN 的 ![](https://i.imgur.com/0Uijq6h.gif): 
+該部份的loss即是傳統GAN的loss，主要目地在於讓Discriminator能有分出Generator產生的圖片和真正的圖片 ![](https://i.imgur.com/50HytWx.gif) ，同時讓 Generator 產生的圖片越來越逼真而能夠騙過 Discriminator 。
 
 - reconstruction loss:
 共可分為以下三種形式
@@ -75,7 +75,7 @@ Bicycle GAN為監督式學習(supervised learning)，經過pair instances即可�
 
 ### Simulation with App
 ---
-本文先以App對新竹轉運站作為模擬電腦視覺效果，結合夕陽美景(Style)，呈現出燈會美景。
+風格轉換的App市面上也已經出現不少，效果也都很好，本文先以App對新竹轉運站作為模擬電腦視覺效果，結合夕陽美景(Style)，呈現出燈會美景。
 
 | _Source_  | _Style_  |  Transfer |
 |:-----:|:----:|:----:|
@@ -87,7 +87,7 @@ Bicycle GAN為監督式學習(supervised learning)，經過pair instances即可�
 
 ### 1.Pick 3 different paintings
 ---
-訓練完成該畫風的模型後，選其中三張畫作做為style參考，選三張真實照片(一張自己提供兩張由datasets隨機選出)分別就不同style進行轉換，其中公園的真實照片轉成style2的畫作最為成功!判斷是因為其情境十分相似，但普遍效果不佳，所以決定直接產生style code來對照片進行轉換。
+訓練完成該畫風的模型後，選其中三張畫作做為 style 參考，選三張真實照片(一張自己提供兩張由datasets隨機選出)分別就不同 style 進行轉換，其中公園的真實照片轉成 style2 的畫作最為成功!判斷是因為其情境十分相似，但普遍效果不佳，所以決定直接產生 style code 來對照片進行轉換。
 #### a.Photo2Monet
 |![](https://i.imgur.com/RuFjck5.png)|![](https://i.imgur.com/NuFTDkZ.jpg)|![](https://i.imgur.com/lVyF84M.jpg)|![](https://i.imgur.com/VqONRxd.jpg)|
 |:-----:|:----:|:----:|:----:|
@@ -111,7 +111,7 @@ Bicycle GAN為監督式學習(supervised learning)，經過pair instances即可�
 |![](https://i.imgur.com/LB1UoYF.jpg)|![](https://i.imgur.com/08ecHL8.jpg)|![](https://i.imgur.com/ZhRmWZE.jpg)|![](https://i.imgur.com/zRuMIxI.jpg)|
 ### 2.Linearity produce style code
 ---
-自己產生style code 進行轉換我們使用了兩種技巧，一種是技巧A,隨機產生兩個style code並以兩者變化量除16做為單位向量，此向量有8個維度，因為儲存style_dim在訓練時設定為8，技巧B則是一次只動style code的其中一個維度，範圍從-3.5到4，遞增0.5，其他維度設為0。
+自己產生 style code 進行轉換我們使用了兩種技巧，一種是技巧A,隨機產生兩個 style code 並以兩者變化量除16做為單位向量，此向量有8個維度，因為儲存 style_dim 在訓練時設定為8，技巧B則是一次只動 style code 的其中一個維度，範圍從-3.5到4，遞增0.5，其他維度設為0。
 #### 技巧A
 
 向量調整style code
@@ -121,7 +121,7 @@ Bicycle GAN為監督式學習(supervised learning)，經過pair instances即可�
 |:--:|:--:|:--:|
 |cezanne|monet|vangogh|
 
-因為是用兩個隨機的style code產生單位向量，所以每個維度變化尺度不同，畫風線性變化上不一定很明顯，不過產生的圖片在風格上很接近畫作相較於直接抽取畫作的style code。
+因為是用兩個隨機的style code產生單位向量，所以每個維度變化尺度不同，畫風線性變化上不一定很明顯，不過產生的圖片在風格上很接近畫作相較於直接抽取畫作的 style code。
 #### 技巧Ｂ
 之所以維度調整範圍由-3.5到4是因為幾乎每個維度在這個範圍內都有明顯的線性變化。
 
@@ -139,17 +139,17 @@ Bicycle GAN為監督式學習(supervised learning)，經過pair instances即可�
 |7|![](https://i.imgur.com/yIY25q7.gif)|![](https://i.imgur.com/rKpCytY.gif)|![](https://i.imgur.com/her7FH6.gif)|![](https://i.imgur.com/LwJNheJ.gif)|
 |8|![](https://i.imgur.com/RE4kPBb.gif)|![](https://i.imgur.com/iEL0g3m.gif)|![](https://i.imgur.com/ACQsf8G.gif)|![](https://i.imgur.com/IIZEyxi.gif)|
 
-主觀上，雖然相同dimension不同畫家產生線性變化不同，調整style code時，其中一個畫家產生的圖片具有另外兩個畫家畫作的特徵，有可能是因為三者皆為印象派畫風。
+主觀上，雖然相同 dimension 不同畫家產生線性變化不同，調整 style code 時，其中一個畫家產生的圖片具有另外兩個畫家畫作的特徵，有可能是因為三者皆為印象派畫風。
 
 ### 3. Mix datasets to enhance the variance of style code
 ---
-經過前一部分的實驗，我們猜測某種畫家的畫風，會被encode在某個style dimension，故該部分我們嘗試將三種不同派別畫家(or畫風)的畫混合起來做training，看是否能學到更多元的style code。
+經過前一部分的實驗，我們猜測某種畫家的畫風，會被 encode 在某個 style dimension，故該部分我們嘗試將三種不同派別畫家(or畫風)的畫混合起來做 training ，看是否能學到更多元的 style code 。
 
 其中所選擇的三位畫家(畫風)是：浮世繪(ukiyoe)、莫內(Monet)、保羅尚賽(cezan)的畫。
 
-這裡有個背景知識：浮世繪的油畫風格，有深刻影響到印象派(莫內)發展，而後更是受立體主義影響，從印象派演變至後印象派(保羅尚賽)。因此我們假設這三種畫風其實存在content code(演變過程保留的feature)，而其有別於其他畫派的特色可用不同的style code描述。
+這裡有個背景知識：浮世繪的油畫風格，有深刻影響到印象派(莫內)發展，而後更是受立體主義影響，從印象派演變至後印象派(保羅尚賽)。因此我們假設這三種畫風其實存在 content code(演變過程保留的feature)，而其有別於其他畫派的特色可用不同的 style code 描述。
 
-其中以下的測試資料當中，梵谷(Vango·新印象派)的畫(如下圖b.)是沒有訓練過的，但仍然能夠產生類似的畫風。且相較於直接用梵谷的畫作train出來的效果要好。
+其中以下的測試資料當中，梵谷(Vango·新印象派)的畫(如下圖b.)是沒有訓練過的，但仍然能夠產生類似的畫風。且相較於直接用梵谷的畫作 train 出來的效果要好。
 ###### 備註：混合三種畫的model train到110000 iteration，純粹用梵谷的畫train的model則是到120000 iteration
 
 #### a.Photo2Monet
@@ -183,7 +183,7 @@ Bicycle GAN為監督式學習(supervised learning)，經過pair instances即可�
 採用的pre-trained的VGG的模型改版，原版VGG模型如下圖:
 ![](https://i.imgur.com/PYusQK8.jpg)
 
-一般的VGG包含 convolution + pooling + FC(fully-connected layers)，但是此版本只使用16層convolutional layers 和 5層 pooling layers，用GAP(global average pooling)取代FC layers後，使其在預測上效果更好。
+一般的VGG包含 convolution + pooling + FC(fully-connected layers)，但是此版本只使用16層 convolutional layers 和 5層 pooling layers，用 GAP(global average pooling) 取代 FC layers 後，使其在預測上效果更好。
 
 此外，模型主要包含兩個部分，Content Reconstruction 以及 Style Reconstruction。透過保留 high-layer content 融合運用 multilayer feature correlations 重建的 style 得以產生真實照片轉換成畫作的視覺效果。
 
@@ -204,7 +204,7 @@ Bicycle GAN為監督式學習(supervised learning)，經過pair instances即可�
 |![](https://i.imgur.com/7z8Ie5q.jpg)|![](https://i.imgur.com/edJEfHT.jpg)|![](https://i.imgur.com/24KxhfV.jpg)|![](https://i.imgur.com/ENMI9Z7.jpg)|
 |![](https://i.imgur.com/LB1UoYF.jpg)|![](https://i.imgur.com/2BLWcPQ.jpg)|![](https://i.imgur.com/ziAuKE1.jpg)|![](https://i.imgur.com/ki6YZgR.jpg)|
 
-#### Photo2Cezanne 
+#### c.Photo2Cezanne 
 |![](https://i.imgur.com/RuFjck5.png)|![](https://i.imgur.com/KdgdtLu.jpg)|![](https://i.imgur.com/MYFTUBs.jpg)|![](https://i.imgur.com/YQ8HW1G.jpg)|
 |:-----:|:----:|:----:|:----:|
 |![](https://i.imgur.com/gsesz2Z.png)|![](https://i.imgur.com/erEpnYK.jpg)|![](https://i.imgur.com/Dqze08V.jpg)|![](https://i.imgur.com/1Sb0hXJ.jpg)|
@@ -212,7 +212,7 @@ Bicycle GAN為監督式學習(supervised learning)，經過pair instances即可�
 |![](https://i.imgur.com/LB1UoYF.jpg)|![](https://i.imgur.com/vc878Be.jpg)|![](https://i.imgur.com/voLlx5q.jpg)|![](https://i.imgur.com/tI9AMlh.jpg)|
 ###  [Diverse image2image tranfer](http://vllab.ucmerced.edu/hylee/publication/ECCV18_DRIT.pdf)
 ---
-其實DRIT跟MUNIT幾乎是相同的model，都是分出內容空間和屬性空間(或稱風格空間)，硬要區分不同大概只有在如何融合內容空間和屬性空間上，MUNIT使用[AdaIN](https://github.com/xunhuang1995/AdaIN-style)，DRIT則有兩種選擇: For color-variation translate 使用 simple concatenation ； For shape-variation 使用 element-wise feature transformation 。
+其實 DRIT 跟 MUNIT 幾乎是相同的 model ，都是分出內容空間和屬性空間(或稱風格空間)，硬要區分不同大概只有在如何融合內容空間和屬性空間上， MUNIT 使用[AdaIN](https://github.com/xunhuang1995/AdaIN-style)， DRIT 則有兩種選擇: For color-variation translate 使用 simple concatenation ； For shape-variation 使用 element-wise feature transformation 。
 
 #### Example
 
