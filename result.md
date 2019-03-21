@@ -1,9 +1,9 @@
 
-ISA525700 Computer Vision for Visual Effects<br/>Assignment 2: MUNIT
+ISA525700 Computer Vision for Visual Effects<br/>Assignment 2: MUNIT<br/>Team 19
 ===
 
 ## Abstract
-現今3C資訊產品市場規模龐大，消費者對於電腦視覺品質要求，亦日益升高。本文所探討MUNIT model具有一對多影像輸出轉換效果，對於其轉換後影像品質與多樣性等層面效果如何?這是在本文與實驗中欲深入探討!
+現今3C資訊產品市場規模龐大，消費者對於電腦視覺品質要求，亦日益升高。本文所探討MUNIT model具有一對多影像輸出轉換效果，對於其轉換後影像品質與多樣性等層面效果如何?這是在本文與實驗中欲深入探討的。
 
 Keyword: 電腦視覺, MUNIT, 影像品質, 多樣性
 
@@ -11,7 +11,7 @@ Keyword: 電腦視覺, MUNIT, 影像品質, 多樣性
 1. [Abstract](#Abstract)
 2. [Introduction](#Introduction)
 3. [Training Process](#Training-Process)
-4. [Inference Munit in personal image](Inference-Munit-in-personal-image)
+4. [Inference Munit in personal image](#Inference-Munit-in-personal-image)
 5. [Other Methods](#Other-Methods)
 6. [Reference](#Reference)
 
@@ -29,7 +29,7 @@ Keyword: 電腦視覺, MUNIT, 影像品質, 多樣性
 - 因此本文提出Xun Huang的MUNIT，首先我們假設影像的潛在空間，可以被分解為內容碼(content code)與樣式碼(style code)，進一步讓兩張不同影像共享content code，但不共享style code，然後兩張影像重新組合訓練後，模型產生多樣性與多模態輸出，兼具高影像品質，取代傳統方法。
 
 ## Method
-MUNIT是源自UNIT與Bicycle GAN而來，相關基礎概念說明如下。
+MUNIT是源自UNIT與Cycle GAN而來，目標是具有Bicycle GAN輸出一對多的功能，但只要有 unpaired instances 即可進行訓練，相關基礎概念說明如下。
 
 ### UNIT
 非監督式影像對影像轉換法(Unsupervised Image-to-Image Translation, UNIT)，可以對兩個dataset進行Training，如老虎與獅子兩種照片，可以深度學習到眼睛、鼻子、嘴等等五官之共同特徵。
@@ -52,6 +52,7 @@ Bicycle GAN為監督式學習(supervised learning)，經過pair instances即可�
 
 
 ### Loss Function
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script>
 ![](https://i.imgur.com/QPyuVNK.png)
 
 上述loss function 可拆成兩部份，GAN本身的loss($\mathcal{L}^{x_i}_{GAN}$) 加上 reconstruction loss($\lambda_k(\mathcal{L}^{k_1}_{recon}+\mathcal{L}^{k_2}_{recon})$)
@@ -177,7 +178,7 @@ Bicycle GAN為監督式學習(supervised learning)，經過pair instances即可�
 
 
 ## Other Methods
-由於上一次[作業1](https://github.com/AllenChen0958/homework1-color-transfer/blob/master/result.md)已經對其中幾個方法做過介紹，這次僅就 A Neural Algorithm of Artistic Style 以及 Diverse image2image tranfer 做介紹，剩下已轉換結果圖片及表格進行比較。
+由於上一次[作業1](https://github.com/AllenChen0958/homework1-color-transfer/blob/master/result.md)已經對其中幾個方法做過介紹，這次僅就 A Neural Algorithm of Artistic Style 以及 Diverse image2image tranfer 做介紹，剩下以轉換完之結果圖片及表格進行比較。
 ### [A Neural Algorithm of Artistic Style](https://ithelp.ithome.com.tw/articles/10192738)
 ---
 採用的pre-trained的VGG的模型改版，如下圖:
@@ -259,7 +260,8 @@ Bicycle GAN為監督式學習(supervised learning)，經過pair instances即可�
 
 - MUNIT 跟 CNN 有類似的照片輸入模式，乍看之下似乎CNN效果比較好?事實上不盡然如此，如果看CNN的realphoto2cezan結果，我們會發現照片內的船幾乎消失不見，在細節保留上是比Munit差很多的，原因推測可能是因為munit在抽取content特徵時，使用了residual block，因此得以保留更多細節。相對而言，因為細節保留太多在很多style轉換後，仍然看起來不像畫作。
 
-- Cycle GAN在細節保留上，似乎取得更好的平衡，因為對其a2b後，尚須進行b2a還原測試，大部分影像轉換後的結果，可細觀出原始照片細節，並且畫風中的筆觸跟色彩皆有融合其中之微妙。
+- Cycle GAN在細節保留上，似乎取得更好的平衡，因為對其a2b後，尚須進行b2a還原測試，大部分影像轉換後的結果，仍然可以看到大部分原始照片的細節，並且畫風中的筆觸跟色彩皆有融合於其中。
+- DRIT 的轉換結果在這次實驗中不是很好，原本預測應該會有與MUNIT接近的結果，但是不管是細節或是畫風轉換都沒有很出色，問題可能是出在訓練時間不夠長。
 
 
 ## Reference
