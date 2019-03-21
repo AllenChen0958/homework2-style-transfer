@@ -2,12 +2,18 @@
 ISA525700 Computer Vision for Visual Effects<br/>Assignment 2: MUNIT
 ===
 
-
-
 ## Abstract
 現今3C資訊產品市場規模龐大，消費者對於電腦視覺品質要求，亦日益升高。本文所探討MUNIT model具有一對多影像輸出轉換效果，對於其轉換後影像品質與多樣性等層面效果如何?這是在本文與實驗中欲深入探討!
 
 Keyword: 電腦視覺, MUNIT, 影像品質, 多樣性
+
+## Table of Contents
+1. [Abstract](#Abstract)
+2. [Introduction](#Introduction)
+3. [Training Process](#Training-Process)
+4. [Inference Munit in personal image](Inference-Munit-in-personal-image)
+5. [Other Methods](#Other-Methods)
+6. [Reference](#Reference)
 
 ## Introduction
 
@@ -16,16 +22,22 @@ Keyword: 電腦視覺, MUNIT, 影像品質, 多樣性
 - 因UNIT model僅能一對一影像轉換，因此Xun Huang等四位學者在2018年Cornell University與NVIDIA的產學合作計劃中，發表提出MUNIT model，成功突破此難題，挑戰一對多影像生成，成功轉出多張影像。而本文正探討MUNIT的影像品質與多樣性等電腦視覺效果，與其它ML Model比較是否具有提供消費者最佳品質。
 
 - 讓我們觀看下面關於MUNIT實驗成果影片。
+[![](http://img.youtube.com/vi/ab64TWzWn40/0.jpg)](http://www.youtube.com/watch?v=ab64TWzWn40 "")
 
-<iframe width="727" height="409" src="https://www.youtube.com/embed/ab64TWzWn40" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+- 因為電腦視覺(Computer Vision)領域中，從ㄧ個影像從ㄧ處擷取轉移到另一處，存有許多問題，像是高強度辨識率、著色、修復、屬性移轉、樣式移轉等。像這種跨域的影像對影像轉換(cross-domain image-to-image translation)的問題，目前受到全球重大關注! 當dataset 與paired examples進行mapping時，可以透過條件生成模型(conditional generative model) 或簡單生成模型(simple regression model)加以解決。在unsupervision下，我們更關注對於影像內容環境的挑戰。在跨域配對(cross-domain mapping)領域上，多模態(multimodal)最令人感到興趣，由於影像中天氣、時間、光照等原因，現今技術採確定性(deterministic)或單峰(unimodal)進行mapping。結果圖片仍然無法全部分佈而輸出，縱使加入noise，深度學習神經網路仍舊無法learning。
 
-## Method: UNIT
+- 因此本文提出Xun Huang的MUNIT，首先我們假設影像的潛在空間，可以被分解為內容碼(content code)與樣式碼(style code)，進一步讓兩張不同影像共享content code，但不共享style code，然後兩張影像重新組合訓練後，模型產生多樣性與多模態輸出，兼具高影像品質，取代傳統方法。
+
+## Method
+MUNIT是源自UNIT與Bicycle GAN而來，相關基礎概念說明如下。
+
+### UNIT
 非監督式影像對影像轉換法(Unsupervised Image-to-Image Translation, UNIT)，可以對兩個dataset進行Training，如老虎與獅子兩種照片，可以深度學習到眼睛、鼻子、嘴等等五官之共同特徵。
 
-## Method: Bicycle GAN
+### Bicycle GAN
 Bicycle GAN為監督式學習(supervised learning)，經過pair instances即可訓練出共同特徵，再透過亂數(Random)改變輸出，可以生成一對多。
 
-## Method: MUNIT
+### MUNIT
 - 本文探討多模態非監督式影像對影像轉換法(Multimodal Unsupervised Image-to-Image Translation, MUNIT)。此模型主要透過內容碼(content code)與樣式碼(style code)學習圖片生成。
 
 - 多模態(Multimodal)概念為生成一對多圖片風格轉換(style transfer)，例如將老虎的圖片轉成多張獅子圖片。Multimodal有隨機模型(stochastic model)與確定型模型(deterministic model)兩種。隨機模型(stochastic model)是輸入一張圖片可輸出多張隨機不同圖片。確定型模型(deterministic model)是一對一固定輸出圖片。
@@ -39,7 +51,7 @@ Bicycle GAN為監督式學習(supervised learning)，經過pair instances即可�
 - 如果想將一張影像風格套用在另一張影像的內容，我們可以從深度學習網路中擷取內容與風格兩種特徵，再將兩者進行重建，並採用損失函數與最佳演算法找出最佳影像輸出。
 
 
-## Loss Function
+### Loss Function
 ![](https://i.imgur.com/QPyuVNK.png)
 
 上述loss function 可拆成兩部份，GAN本身的loss($\mathcal{L}^{x_i}_{GAN}$) 加上 reconstruction loss($\lambda_k(\mathcal{L}^{k_1}_{recon}+\mathcal{L}^{k_2}_{recon})$)
@@ -60,6 +72,15 @@ Bicycle GAN為監督式學習(supervised learning)，經過pair instances即可�
 如下圖所示，MUNIT影像訓練，一個cycle單位為一萬。
 
 ![](https://i.imgur.com/K0fJtRy.jpg)
+
+### Simulation with App
+---
+本文先以App對新竹轉運站作為模擬電腦視覺效果，結合夕陽美景(Style)，呈現出燈會美景。
+
+| _Source_  | _Style_  |  Transfer |
+|:-----:|:----:|:----:|
+|![](https://i.imgur.com/96QDBcW.jpg)|![](https://i.imgur.com/HSvqfms.jpg)|![](https://i.imgur.com/B3C2W0F.jpg)|![]
+|新竹轉運站的原圖|以夕陽照片為訓練|創作出燈會美景|
 
 
 ## Inference Munit in personal image
@@ -99,6 +120,7 @@ Bicycle GAN為監督式學習(supervised learning)，經過pair instances即可�
 |![](https://i.imgur.com/D1KCYtB.gif)|![](https://i.imgur.com/94PG8rX.gif)| ![](https://i.imgur.com/GbdkQii.gif)|
 |:--:|:--:|:--:|
 |cezanne|monet|vangogh|
+
 因為是用兩個隨機的style code產生單位向量，所以每個維度變化尺度不同，畫風線性變化上不一定很明顯，不過產生的圖片在風格上很接近畫作相較於直接抽取畫作的style code。
 #### 技巧Ｂ
 之所以維度調整範圍由-7到0.5是因為幾乎每個維度在這個範圍內都有明顯的線性變化。
@@ -106,16 +128,16 @@ Bicycle GAN為監督式學習(supervised learning)，經過pair instances即可�
 
 
 
-|dimension欄位|Monet|Vangogh|Cezanne|
-|:--:|:--:|:--:|:--:|
-|1|![](https://i.imgur.com/2yP0Owf.gif)|![](https://i.imgur.com/6eoWLaM.gif)|![](https://i.imgur.com/tqPyTCe.gif)|
-|2|![](https://i.imgur.com/nUwQBic.gif)|![](https://i.imgur.com/juQNtuj.gif)|![](https://i.imgur.com/yL6ncCT.gif)|
-|3|![](https://i.imgur.com/c73cuMO.gif)|![](https://i.imgur.com/6cnKgCc.gif)|![](https://i.imgur.com/a8mtXN1.gif)|
-|4|![](https://i.imgur.com/UXzXfiP.gif)|![](https://i.imgur.com/LeEbio0.gif)|![](https://i.imgur.com/stiCU8L.gif)|
-|5|![](https://i.imgur.com/zOwSJNN.gif)|![](https://i.imgur.com/DWOTKNK.gif)|![](https://i.imgur.com/TKSj19F.gif)|
-|6|![](https://i.imgur.com/83xIPq3.gif)|![](https://i.imgur.com/yJElZuC.gif)|![](https://i.imgur.com/Lj2DKQJ.gif)|
-|7|![](https://i.imgur.com/sHk22jR.gif)|![](https://i.imgur.com/Xm2TyT5.gif)|![](https://i.imgur.com/bG5hsVs.gif)|
-|8|![](https://i.imgur.com/YEo1sPN.gif)|![](https://i.imgur.com/QbGQqz4.gif)|![](https://i.imgur.com/6vfDPCi.gif)|
+|dim|Monet|Vangogh|Cezanne|Mixdataset|
+|:--:|:--:|:--:|:--:|:--:| 
+|1|![](https://i.imgur.com/1TIYaZQ.gif)|![](https://i.imgur.com/1ckiYCd.gif)|![](https://i.imgur.com/M1HWfNd.gif)|![](https://i.imgur.com/UI1WbBk.gif)|
+|2|![](https://i.imgur.com/A6mxQBD.gif)|![](https://i.imgur.com/m8nFnpu.gif)|![](https://i.imgur.com/U3ZfKZm.gif)|![](https://i.imgur.com/dL1QD5q.gif)|
+|3|![](https://i.imgur.com/M18bWwR.gif)|![](https://i.imgur.com/06HX0dS.gif)|![](https://i.imgur.com/YEBxeEm.gif)|![](https://i.imgur.com/qhmO53Q.gif)|
+|4|![](https://i.imgur.com/pi2KaLC.gif)|![](https://i.imgur.com/FbbDYQg.gif)|![](https://i.imgur.com/blDy3Xh.gif)|![](https://i.imgur.com/ttYSyxm.gif)|
+|5|![](https://i.imgur.com/tGHW2fY.gif)|![](https://i.imgur.com/u2IqWFy.gif)|![](https://i.imgur.com/aimCg6T.gif)|![](https://i.imgur.com/lLuBkqc.gif)|
+|6|![](https://i.imgur.com/DEc16RK.gif)|![](https://i.imgur.com/tDDyco7.gif)|![](https://i.imgur.com/jpfEAVp.gif)|![](https://i.imgur.com/4xIzkkx.gif)|
+|7|![](https://i.imgur.com/yIY25q7.gif)|![](https://i.imgur.com/rKpCytY.gif)|![](https://i.imgur.com/her7FH6.gif)|![](https://i.imgur.com/LwJNheJ.gif)|
+|8|![](https://i.imgur.com/RE4kPBb.gif)|![](https://i.imgur.com/iEL0g3m.gif)|![](https://i.imgur.com/ACQsf8G.gif)|![](https://i.imgur.com/IIZEyxi.gif)|
 
 主觀上，雖然相同dimension不同畫家產生線性變化不同，調整style code時，其中一個畫家產生的圖片具有另外兩個畫家畫作的特徵，有可能是因為三者皆為印象派畫風。
 
@@ -155,8 +177,13 @@ Bicycle GAN為監督式學習(supervised learning)，經過pair instances即可�
 
 
 ## Other Methods
-
+由於上一次[作業1](https://github.com/AllenChen0958/homework1-color-transfer/blob/master/result.md)已經對其中幾個方法做過介紹，這次僅就 A Neural Algorithm of Artistic Style 以及 Diverse image2image tranfer 做介紹，剩下已轉換結果圖片及表格進行比較。
 ### [A Neural Algorithm of Artistic Style](https://ithelp.ithome.com.tw/articles/10192738)
+---
+採用的pre-trained的VGG的模型改版，如下圖:
+![](https://i.imgur.com/PYusQK8.jpg)
+一般的VGG包含 convolution + pooling + FC(fully-connected layers)，但是此版本只使用16層convolutional layers 和 5層 pooling layers，用GAP(global average pooling)取代FC layers後，使其在預測上效果更好。
+此外，模型主要包含兩個部分，Content Reconstruction 以及 Style Reconstruction。透過保留 high-layer content 融合運用 multilayer feature correlations 重建的 style 得以產生真實照片轉換成畫作的視覺效果。
 
 #### Example
 為方便閱讀比較，該方法的測資上，選擇和上方MUNIT三張畫作作為style參考，並依照MUNIT的三張真實照片分別就不同style進行轉換，該方法會隨其pretrained vgg-model的好壞
@@ -175,18 +202,43 @@ Bicycle GAN為監督式學習(supervised learning)，經過pair instances即可�
 |![](https://i.imgur.com/7z8Ie5q.jpg)|![](https://i.imgur.com/edJEfHT.jpg)|![](https://i.imgur.com/24KxhfV.jpg)|![](https://i.imgur.com/ENMI9Z7.jpg)|
 |![](https://i.imgur.com/LB1UoYF.jpg)|![](https://i.imgur.com/2BLWcPQ.jpg)|![](https://i.imgur.com/ziAuKE1.jpg)|![](https://i.imgur.com/ki6YZgR.jpg)|
 
-#### c.Photo2Cezanne 
+#### Photo2Cezanne 
 |![](https://i.imgur.com/RuFjck5.png)|![](https://i.imgur.com/KdgdtLu.jpg)|![](https://i.imgur.com/MYFTUBs.jpg)|![](https://i.imgur.com/YQ8HW1G.jpg)|
 |:-----:|:----:|:----:|:----:|
 |![](https://i.imgur.com/gsesz2Z.png)|![](https://i.imgur.com/erEpnYK.jpg)|![](https://i.imgur.com/Dqze08V.jpg)|![](https://i.imgur.com/1Sb0hXJ.jpg)|
 |![](https://i.imgur.com/7z8Ie5q.jpg)|![](https://i.imgur.com/5qKREXR.jpg)|![](https://i.imgur.com/leMdjAi.jpg)|![](https://i.imgur.com/DQOQNCW.jpg)|
 |![](https://i.imgur.com/LB1UoYF.jpg)|![](https://i.imgur.com/vc878Be.jpg)|![](https://i.imgur.com/voLlx5q.jpg)|![](https://i.imgur.com/tI9AMlh.jpg)|
+###  [Diverse image2image tranfer](http://vllab.ucmerced.edu/hylee/publication/ECCV18_DRIT.pdf)
+---
+其實DRIT跟MUNIT幾乎是相同的model，都是分出內容空間和屬性空間(或稱風格空間)，硬要區分不同大概只有在如何融合內容空間和屬性空間上，MUNIT使用[AdaIN](https://github.com/xunhuang1995/AdaIN-style)，DRIT則有兩種選擇:For color-variation translate 使用 simple concatenation ； For shape-variation 使用 element-wise feature transformation 。
+
+#### Example
+
+
+#### a.Photo2Vangogh
+|![](https://i.imgur.com/RuFjck5.png)|![](https://i.imgur.com/4KVTN7v.jpg)|![](https://i.imgur.com/effAhcg.jpg)|![](https://i.imgur.com/GJJVWgi.jpg)|
+|:-----:|:----:|:----:|:----:|
+|![](https://i.imgur.com/gsesz2Z.png)|![](https://i.imgur.com/7qoN4cJ.png)|![](https://i.imgur.com/MHYPawa.png)|![](https://i.imgur.com/OzXzEDF.png)|
+|![](https://i.imgur.com/7z8Ie5q.jpg)|![](https://i.imgur.com/PywQWZo.png)|![](https://i.imgur.com/OziEJAl.png)|![](https://i.imgur.com/oBsAhmG.png)|
+|![](https://i.imgur.com/LB1UoYF.jpg)|![](https://i.imgur.com/7VVmzF3.png)|![](https://i.imgur.com/NhEhUwB.png)|![](https://i.imgur.com/GFJPPXI.png)|
 
 ### Comparisons
+#### 思路比較
+[![](https://i.imgur.com/JVUDIMH.png)](https://pythonawesome.com/simple-tensorflow-implementation-of-diverse-image-to-image-translation/)
+#### MUNIT vs DRIT
+除了部分連接方式以及content 和 style 結合方式的差異，其他部分十分相似。
+
+- MUNIT:
+![](https://i.imgur.com/oIgzc06.png)
+
+
+- DRIT:
+![](https://i.imgur.com/ZowTwSB.png)
+
 
 #### Form contains differnt methods (photo2Vangogh)
-| _content_  | _style_  |  munit |Cycle GAN|fast transfer | Neural Algorith|Diverse img transfer| 
-|:-----:|:----:|:----:|:----:|:----:|:----:|:----:|
+| _content_  | _style_  |  Munit |Cycle GAN|fast transfer | Neural Algorith|Diverse Img2Img Transfer| 
+|:-----:|:----:|:----:|:----:|:----:|:----:|:-----:|
 |![](https://i.imgur.com/gsesz2Z.png)|![](https://i.imgur.com/4KVTN7v.jpg)|![](https://i.imgur.com/oIEitHE.jpg)|![](https://i.imgur.com/p0ZSDXs.png)|![](https://i.imgur.com/DmjDwm0.png)|![](https://i.imgur.com/SesPf3s.jpg)|![](https://i.imgur.com/80zeWHn.png)|
 |![](https://i.imgur.com/7z8Ie5q.jpg)|![](https://i.imgur.com/4KVTN7v.jpg)|![](https://i.imgur.com/R79DEUA.jpg)|![](https://i.imgur.com/ipJIWGZ.png)|![](https://i.imgur.com/cnjugPS.png)|![](https://i.imgur.com/SesPf3s.png)|![](https://i.imgur.com/5zNg0Zu.png)|
 |![](https://i.imgur.com/LB1UoYF.jpg)|![](https://i.imgur.com/4KVTN7v.jpg)|![](https://i.imgur.com/L6QT7OJ.jpg)|![](https://i.imgur.com/amORqBD.png)|![](https://i.imgur.com/iJndGNW.png)|![](https://i.imgur.com/2BLWcPQ.png)|![](https://i.imgur.com/JBkYbY6.png)|
@@ -195,7 +247,7 @@ Bicycle GAN為監督式學習(supervised learning)，經過pair instances即可�
 
 
 #### Features comparison
-||  munit |Cycle GAN|fast transfer |  Neural Algorithm|dirt| 
+||  Munit |Cycle GAN|fast transfer |  Neural Algorithm|Diverse Img2Img Transfer| 
 |:-----:|:----:|:----:|:----:|:----:|:----:|
 |輸入的img類型|content_img + style_img|content_img|content_img + style_img|content_img + style_img|content_img + style_img|
 |輸出的img可變性|o|x|o|o|o|
@@ -203,10 +255,15 @@ Bicycle GAN為監督式學習(supervised learning)，經過pair instances即可�
 |轉換效果|筆觸+顏色|筆觸+顏色|顏色|筆觸+顏色|筆觸+顏色|
 |轉換速度排名|3rd|2nd|1th|5th|4th|
 
-
 ## Conclusion
-
 
 - MUNIT 跟 CNN 有類似的照片輸入模式，乍看之下似乎CNN效果比較好?事實上不盡然如此，如果看CNN的realphoto2cezan結果，我們會發現照片內的船幾乎消失不見，在細節保留上是比Munit差很多的，原因推測可能是因為munit在抽取content特徵時，使用了residual block，因此得以保留更多細節。相對而言，因為細節保留太多在很多style轉換後，仍然看起來不像畫作。
 
 - Cycle GAN在細節保留上，似乎取得更好的平衡，因為對其a2b後，尚須進行b2a還原測試，大部分影像轉換後的結果，可細觀出原始照片細節，並且畫風中的筆觸跟色彩皆有融合其中之微妙。
+
+
+## Reference
+1. https://3c.ltn.com.tw/news/35026
+2. https://ithelp.ithome.com.tw/articles/10192738
+3. http://vllab.ucmerced.edu/hylee/publication/ECCV18_DRIT.pdf
+4. https://pythonawesome.com/simple-tensorflow-implementation-of-diverse-image-to-image-translation/
