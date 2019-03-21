@@ -52,12 +52,12 @@ Bicycle GAN為監督式學習(supervised learning)，經過pair instances即可�
 
 
 ### Loss Function
-<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script>
 ![](https://i.imgur.com/QPyuVNK.png)
 
-上述loss function 可拆成兩部份，GAN本身的loss($\mathcal{L}^{x_i}_{GAN}$) 加上 reconstruction loss($\lambda_k(\mathcal{L}^{k_1}_{recon}+\mathcal{L}^{k_2}_{recon})$)
+上述loss function 可拆成兩部份，GAN本身的![](https://i.imgur.com/0Uijq6h.gif)加上reconstruction loss。
 
-- GAN loss($\mathcal{L}^{x_i}_{GAN}$): 該部份的loss即是傳統GAN的loss，主要目地在於讓Discriminator能有分出Generator產生的圖片和真正的圖片$x_i$，同時讓Generator產生的圖片越來越逼真而能夠騙過Discriminator
+- GAN ![](https://i.imgur.com/0Uijq6h.gif): 
+該部份的loss即是傳統GAN的loss，主要目地在於讓Discriminator能有分出Generator產生的圖片和真正的圖片![](https://i.imgur.com/50HytWx.gif)，同時讓Generator產生的圖片越來越逼真而能夠騙過Discriminator
 
 - reconstruction loss:
 共可分為以下三種形式
@@ -67,7 +67,6 @@ Bicycle GAN為監督式學習(supervised learning)，經過pair instances即可�
     > 第二種是希望content code能在decode和encode過程中保留(EX: 狗轉貓後，貓和狗的五官(content code)希望都保留下來且是相同的)
     - ![](https://i.imgur.com/amew9hy.png)
     > 第二種是希望style code能在decode和encode過程中保留(狗轉某特定貓後，能夠用decoder得知該特定貓的品種(style code))
-
 
 ## Training Process
 如下圖所示，MUNIT影像訓練，一個cycle單位為一萬。
