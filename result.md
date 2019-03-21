@@ -182,6 +182,7 @@ Bicycle GAN為監督式學習(supervised learning)，經過pair instances即可�
 ---
 採用的pre-trained的VGG的模型改版，原版VGG模型如下圖:
 ![](https://i.imgur.com/PYusQK8.jpg)
+
 一般的VGG包含 convolution + pooling + FC(fully-connected layers)，但是此版本只使用16層convolutional layers 和 5層 pooling layers，用GAP(global average pooling)取代FC layers後，使其在預測上效果更好。
 
 此外，模型主要包含兩個部分，Content Reconstruction 以及 Style Reconstruction。透過保留 high-layer content 融合運用 multilayer feature correlations 重建的 style 得以產生真實照片轉換成畫作的視覺效果。
